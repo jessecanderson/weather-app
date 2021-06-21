@@ -4,8 +4,8 @@
 document.getElementById("generate").addEventListener("click", handleClick);
 
 // Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
+// let d = new Date();
+let newDate = new Date().toLocaleDateString();
 
 // Hold posts responses
 var postData = {};

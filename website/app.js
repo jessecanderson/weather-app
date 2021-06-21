@@ -8,7 +8,7 @@ let d = new Date();
 let newDate = d.getMonth() + "." + d.getDate() + "." + d.getFullYear();
 
 // Hold posts responses
-var posts = [];
+var postData = {};
 
 async function post(url = "", data = {}) {
   // console.log(data);
@@ -37,7 +37,7 @@ async function getPosts(url = "") {
   try {
     const updatedPosts = await response.json();
     console.log(updatedPosts);
-    posts = updatedPosts;
+    postData = updatedPosts;
   } catch (error) {
     console.log(error);
   }
@@ -60,40 +60,31 @@ function showRecentEntry() {
   let temp = document.getElementById("temp");
   let content = document.getElementById("content");
 
-  const recentEntry = posts.sort((a, b) => b.post.date - a.post.date)[0];
-  console.log(recentEntry);
+  console.log(postData);
 
-  let dateNode = document.createTextNode(recentEntry.post.date);
-  let tempNode = document.createTextNode(recentEntry.weather.main.temp);
-  let contentNode = document.createTextNode(recentEntry.post.post);
+  let dateNode = document.createTextNode(postData.post.date);
+  let tempNode = document.createTextNode(postData.weather.main.temp);
+  let contentNode = document.createTextNode(postData.post.post);
 
   clearRecentEntry();
 
-  date.appendChild(dateNode);
-  temp.appendChild(tempNode);
-  content.appendChild(contentNode);
+  date.innerHTML = postData.post.date;
+  temp.innerHTML = postData.weather.main.temp;
+  content.innerHTML = postData.post.post;
 }
 
 function clearRecentEntry() {
-  let date = document.getElementById("date");
-  let temp = document.getElementById("temp");
-  let content = document.getElementById("content");
+  clearNode("date");
+  clearNode("temp");
+  clearNode("content");
+}
 
-  if (date.hasChildNodes) {
-    while (date.firstChild) {
-      date.removeChild(date.firstChild);
-    }
-  }
-
-  if (temp.hasChildNodes) {
-    while (temp.firstChild) {
-      temp.removeChild(temp.firstChild);
-    }
-  }
-
-  if (content.hasChildNodes) {
-    while (content.firstChild) {
-      content.removeChild(content.firstChild);
+function clearNode(name) {
+  let node = document.getElementById(name);
+  if (node.hasChildNodes) {
+    let child;
+    while ((child = node.firstChild)) {
+      node.removeChild(child);
     }
   }
 }

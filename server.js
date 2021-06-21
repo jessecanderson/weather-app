@@ -60,6 +60,7 @@ async function updatePostWithWeather(post) {
       getWeatherData(url).then((response) => {
         const weatherData = JSON.parse(response);
         const postWithWeather = { post: post, weather: weatherData };
+        projectData = postWithWeather;
         posts.push(postWithWeather);
         console.log(postWithWeather);
         resolve(postWithWeather);
@@ -75,7 +76,7 @@ async function updatePostWithWeather(post) {
 var posts = [];
 
 app.get("/entries", function (req, res) {
-  res.send(posts);
+  res.send(projectData);
 });
 
 // JSON parsing in Express 4.16+
